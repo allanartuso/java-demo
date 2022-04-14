@@ -20,8 +20,8 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers(PageOptions pageOptions, String search){
-        return  userService.findAllByAdvPredicate(search);
+    public List<User> getUsers(PageOptions pageOptions, SearchCriteria searchCriteria){
+        return  userService.getUsers(pageOptions, searchCriteria);
     }
 
     @PostMapping

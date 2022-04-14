@@ -14,34 +14,25 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final UserCriteriaRepository userCriteriaRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository,UserCriteriaRepository userCriteriaRepository) {
         this.userRepository = userRepository;
+        this.userCriteriaRepository = userCriteriaRepository;
     }
 
-//    public List<User> getUsers(PageOptions pageOptions){
-//        Sort sort = Sort.by(pageOptions.getSortDirection(), pageOptions.getSortBy());
-//        Pageable pageable = PageRequest.of(pageOptions.getPageNumber(), pageOptions.getPageSize(), sort);
-//
-//        return userRepository.findAll(pageable).toList();
-////        return List.of(new User(
-////                1L,
-////                "Mariam",
-////                "Jamal",
-////                "mariam.jamal@gmail.com"
-////        ));
-//    }
+    public List<User> getUsers(PageOptions pageOptions, SearchCriteria searchCriteria){
+        Sort sort = Sort.by(pageOptions.getSortDirection(), pageOptions.getSortBy());
+        Pageable pageable = PageRequest.of(pageOptions.getPageNumber(), pageOptions.getPageSize(), sort);
 
-    public List<User> findAllByAdvPredicate(String search) {
-        Specification<User> spec = resolveSpecificationFromInfixExpr(search);
-        return userRepository.findAll(spec);
-    }
-
-    protected Specification<User> resolveSpecificationFromInfixExpr(String searchParameters) {
-        CriteriaParser parser = new CriteriaParser();
-        GenericSpecificationsBuilder<User> specBuilder = new GenericSpecificationsBuilder<>();
-        return specBuilder.build(parser.parse(searchParameters), UserSpecification::new);
+        return userCriteriaRepository.findAllWithFilters(pageOptions, searchCriteria).toList();
+//        return List.of(new User(
+//                1L,
+//                "Mariam",
+//                "Jamal",
+//                "mariam.jamal@gmail.com"
+//        ));
     }
 
     public User createUsers(User user) {
