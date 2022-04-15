@@ -18,7 +18,8 @@ public class SpecSearchCriteria {
         this.value = value;
     }
 
-    public SpecSearchCriteria(final String orPredicate, final String key, final SearchOperation operation, final Object value) {
+    public SpecSearchCriteria(final String orPredicate, final String key, final SearchOperation operation,
+                              final Object value) {
         super();
         this.orPredicate = orPredicate != null && orPredicate.equals(SearchOperation.OR_PREDICATE_FLAG);
         this.key = key;
@@ -78,5 +79,4 @@ public class SpecSearchCriteria {
     public void setOrPredicate(boolean orPredicate) {
         this.orPredicate = orPredicate;
     }
-
 }

@@ -9,7 +9,6 @@ import javax.persistence.criteria.Root;
 
 public class UserSpecification implements Specification<User> {
 
-
     private SpecSearchCriteria criteria;
 
     public UserSpecification(final SpecSearchCriteria criteria) {

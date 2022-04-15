@@ -1,15 +1,10 @@
 package com.example.demo.users;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class GenericSpecificationsBuilder<U> {
 
@@ -19,11 +14,14 @@ public class GenericSpecificationsBuilder<U> {
         this.params = new ArrayList<>();
     }
 
-    public final GenericSpecificationsBuilder<U> with(final String key, final String operation, final Object value, final String prefix, final String suffix) {
+    public final GenericSpecificationsBuilder<U> with(final String key, final String operation, final Object value,
+                                                      final String prefix, final String suffix) {
         return with(null, key, operation, value, prefix, suffix);
     }
 
-    public final GenericSpecificationsBuilder<U> with(final String precedenceIndicator, final String key, final String operation, final Object value, final String prefix, final String suffix) {
+    public final GenericSpecificationsBuilder<U> with(final String precedenceIndicator, final String key,
+                                                      final String operation, final Object value, final String prefix
+            , final String suffix) {
         SearchOperation op = SearchOperation.getSimpleOperation(operation.charAt(0));
         if (op != null) {
             if (op == SearchOperation.EQUALITY) // the operation may be complex operation
@@ -51,24 +49,25 @@ public class GenericSpecificationsBuilder<U> {
         }
 
         final List<Specification<U>> specs = params.stream()
-                .map(converter)
-                .collect(Collectors.toCollection(ArrayList::new));
+                                                   .map(converter)
+                                                   .collect(Collectors.toCollection(ArrayList::new));
 
         Specification<U> result = specs.get(0);
 
         for (int idx = 1; idx < specs.size(); idx++) {
             result = params.get(idx)
-                    .isOrPredicate()
+                           .isOrPredicate()
                     ? Specification.where(result)
-                    .or(specs.get(idx))
+                                   .or(specs.get(idx))
                     : Specification.where(result)
-                    .and(specs.get(idx));
+                                   .and(specs.get(idx));
         }
 
         return result;
     }
 
-    public Specification<U> build(Deque<?> postFixedExprStack, Function<SpecSearchCriteria, Specification<U>> converter) {
+    public Specification<U> build(Deque<?> postFixedExprStack,
+                                  Function<SpecSearchCriteria, Specification<U>> converter) {
 
         Deque<Specification<U>> specStack = new LinkedList<>();
 
@@ -82,17 +81,15 @@ public class GenericSpecificationsBuilder<U> {
             } else {
                 Specification<U> operand1 = specStack.pop();
                 Specification<U> operand2 = specStack.pop();
-                if (mayBeOperand.equals(SearchOperation.AND_OPERATOR))
+                if (mayBeOperand.equals(SearchOperation.AND_OPERATOR)) {
                     specStack.push(Specification.where(operand1)
-                            .and(operand2));
-                else if (mayBeOperand.equals(SearchOperation.OR_OPERATOR))
+                                                .and(operand2));
+                } else if (mayBeOperand.equals(SearchOperation.OR_OPERATOR)) {
                     specStack.push(Specification.where(operand1)
-                            .or(operand2));
+                                                .or(operand2));
+                }
             }
-
         }
         return specStack.pop();
-
     }
-
 }
