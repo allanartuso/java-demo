@@ -13,9 +13,9 @@ import com.google.common.base.Joiner;
 
 public class CriteriaParser {
 
-    private static Map<String, Operator> ops;
+    private static final Map<String, Operator> ops;
 
-    private static Pattern SpecCriteraRegex = Pattern.compile("^(\\w+?)(" + Joiner.on("|")
+    private static final Pattern SpecCriteraRegex = Pattern.compile("^(\\w+?)(" + Joiner.on("|")
             .join(SearchOperation.SIMPLE_OPERATION_SET) + ")(\\p{Punct}?)(\\w+?)(\\p{Punct}?)$");
 
     private enum Operator {
