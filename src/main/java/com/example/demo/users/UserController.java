@@ -50,6 +50,18 @@ public class UserController {
         return userService.getUsers(queryOptions.pageOptions);
     }
 
+    @PostMapping("/composite")
+    public List<User> queryCompositeUsers(@RequestBody CompositeQueryOptions compositeQueryOptions) {
+        if (compositeQueryOptions.search != null) {
+            CompositeGenericSpecificationsBuilder<User> specBuilder = new CompositeGenericSpecificationsBuilder<>();
+            Specification<User> spec = specBuilder
+                    .build(compositeQueryOptions.search, CompositeGenericSpecification::new);
+            return userService.getUsers(compositeQueryOptions.pageOptions, spec);
+        }
+
+        return userService.getUsers(compositeQueryOptions.pageOptions);
+    }
+
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
         return new ResponseEntity<>(userService.createUsers(user), HttpStatus.OK);
