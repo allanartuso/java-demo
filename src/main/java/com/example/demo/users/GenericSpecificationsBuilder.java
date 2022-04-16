@@ -1,5 +1,6 @@
 package com.example.demo.users;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.*;
@@ -9,9 +10,10 @@ import java.util.stream.Collectors;
 public class GenericSpecificationsBuilder<U> {
 
     private final List<SpecSearchCriteria> params;
+    private final ObjectMapper objectMapper;
 
     public GenericSpecificationsBuilder() {
-        this.params = new ArrayList<>();
+        this.params = new ArrayList<>();this.objectMapper = new ObjectMapper();
     }
 
     public final GenericSpecificationsBuilder<U> with(final String key, final String operation, final Object value,
@@ -66,18 +68,19 @@ public class GenericSpecificationsBuilder<U> {
         return result;
     }
 
-    public Specification<U> build(Deque<?> postFixedExprStack,
+    public Specification<U> build(List<?> postFixedExprStack,
                                   Function<SpecSearchCriteria, Specification<U>> converter) {
 
         Deque<Specification<U>> specStack = new LinkedList<>();
 
-        Collections.reverse((List<?>) postFixedExprStack);
+        Collections.reverse(postFixedExprStack);
 
         while (!postFixedExprStack.isEmpty()) {
-            Object mayBeOperand = postFixedExprStack.pop();
+            Object mayBeOperand = postFixedExprStack.remove(0);
 
             if (!(mayBeOperand instanceof String)) {
-                specStack.push(converter.apply((SpecSearchCriteria) mayBeOperand));
+                SpecSearchCriteria specSearchCriteria = objectMapper.convertValue(mayBeOperand, SpecSearchCriteria.class);
+                specStack.push(converter.apply(specSearchCriteria));
             } else {
                 Specification<U> operand1 = specStack.pop();
                 Specification<U> operand2 = specStack.pop();

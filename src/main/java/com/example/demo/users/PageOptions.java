@@ -8,6 +8,13 @@ public class PageOptions {
     private Sort.Direction sortDirection = Sort.Direction.ASC;
     private String sortBy = "id";
 
+    public PageOptions(int pageNumber, int pageSize, Sort.Direction sortDirection, String sortBy) {
+        this.pageNumber = pageNumber;
+        this.pageSize = pageSize;
+        this.sortDirection = sortDirection;
+        this.sortBy = sortBy;
+    }
+
     public int getPageNumber() {
         return pageNumber;
     }

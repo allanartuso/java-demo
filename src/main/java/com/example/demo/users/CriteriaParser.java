@@ -1,22 +1,17 @@
 package com.example.demo.users;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import com.google.common.base.Joiner;
+
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.google.common.base.Joiner;
 
 public class CriteriaParser {
 
     private static final Map<String, Operator> ops;
 
     private static final Pattern SpecCriteraRegex = Pattern.compile("^(\\w+?)(" + Joiner.on("|")
-            .join(SearchOperation.SIMPLE_OPERATION_SET) + ")(\\p{Punct}?)(\\w+?)(\\p{Punct}?)$");
+                                                                                        .join(SearchOperation.SIMPLE_OPERATION_SET) + ")(\\p{Punct}?)(\\w+?)(\\p{Punct}?)$");
 
     private enum Operator {
         OR(1), AND(2);
@@ -41,37 +36,47 @@ public class CriteriaParser {
         return (ops.containsKey(prevOp) && ops.get(prevOp).precedence >= ops.get(currOp).precedence);
     }
 
-    public Deque<?> parse(String searchParam) {
+    public List<Object> parse(String searchParam) {
 
-        Deque<Object> output = new LinkedList<>();
+        List<Object> output = new LinkedList<>();
         Deque<String> stack = new LinkedList<>();
 
         Arrays.stream(searchParam.split("\\s+")).forEach(token -> {
             if (ops.containsKey(token)) {
                 while (!stack.isEmpty() && isHigerPrecedenceOperator(token, stack.peek()))
-                    output.push(stack.pop()
-                            .equalsIgnoreCase(SearchOperation.OR_OPERATOR) ? SearchOperation.OR_OPERATOR : SearchOperation.AND_OPERATOR);
-                stack.push(token.equalsIgnoreCase(SearchOperation.OR_OPERATOR) ? SearchOperation.OR_OPERATOR : SearchOperation.AND_OPERATOR);
+                    output.add(stack.pop()
+                                     .equalsIgnoreCase(SearchOperation.OR_OPERATOR) ? SearchOperation.OR_OPERATOR :
+                            SearchOperation.AND_OPERATOR);
+                stack.push(token
+                        .equalsIgnoreCase(SearchOperation.OR_OPERATOR) ? SearchOperation.OR_OPERATOR :
+                        SearchOperation.AND_OPERATOR);
             } else if (token.equals(SearchOperation.LEFT_PARANTHESIS)) {
                 stack.push(SearchOperation.LEFT_PARANTHESIS);
             } else if (token.equals(SearchOperation.RIGHT_PARANTHESIS)) {
                 while (!stack.peek()
-                        .equals(SearchOperation.LEFT_PARANTHESIS))
-                    output.push(stack.pop());
+                             .equals(SearchOperation.LEFT_PARANTHESIS))
+                    output.add(stack.pop());
                 stack.pop();
             } else {
-
+                System.out.println(token);
                 Matcher matcher = SpecCriteraRegex.matcher(token);
                 while (matcher.find()) {
-                    output.push(new SpecSearchCriteria(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4), matcher.group(5)));
+                    System.out.println(matcher.group(1));
+                    System.out.println(matcher.group(2));
+                    System.out.println(matcher.group(3));
+                    System.out.println(matcher.group(4));
+                    System.out.println(matcher.group(5));
+
+                    output.add(new SpecSearchCriteria(matcher.group(1), matcher.group(2), matcher.group(3), matcher
+                            .group(4), matcher.group(5)));
                 }
             }
         });
 
         while (!stack.isEmpty())
-            output.push(stack.pop());
+            output.add(stack.pop());
 
+        Collections.reverse(output);
         return output;
     }
-
 }
