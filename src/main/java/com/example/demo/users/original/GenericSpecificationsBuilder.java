@@ -1,5 +1,6 @@
-package com.example.demo.users;
+package com.example.demo.users.original;
 
+import com.example.demo.users.common.SearchOperation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.jpa.domain.Specification;
 

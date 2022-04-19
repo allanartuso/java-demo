@@ -1,4 +1,9 @@
-package com.example.demo.users;
+package com.example.demo.users.composite;
+
+import com.example.demo.users.common.SearchLogic;
+import com.example.demo.users.common.SearchOperation;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,6 +11,8 @@ import java.util.Optional;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.empty;
 
+@Getter
+@Setter
 public class CompositeSpecSearchCriteria {
     private Optional<String> key = empty();
     private Optional<SearchOperation> operation = empty();
@@ -34,45 +41,5 @@ public class CompositeSpecSearchCriteria {
 
     public boolean isComposite() {
         return this.logic.isPresent();
-    }
-
-    public Optional<String> getKey() {
-        return key;
-    }
-
-    public void setKey(Optional<String> key) {
-        this.key = key;
-    }
-
-    public Optional<SearchOperation> getOperation() {
-        return operation;
-    }
-
-    public void setOperation(Optional<SearchOperation> operation) {
-        this.operation = operation;
-    }
-
-    public Optional<Object> getValue() {
-        return value;
-    }
-
-    public void setValue(Optional<Object> value) {
-        this.value = value;
-    }
-
-    public Optional<SearchLogic> getLogic() {
-        return logic;
-    }
-
-    public void setLogic(Optional<SearchLogic> logic) {
-        this.logic = logic;
-    }
-
-    public List<CompositeSpecSearchCriteria> getFilters() {
-        return filters;
-    }
-
-    public void setFilters(List<CompositeSpecSearchCriteria> filters) {
-        this.filters = filters;
     }
 }

@@ -1,5 +1,6 @@
-package com.example.demo.users;
+package com.example.demo.users.composite;
 
+import com.example.demo.users.common.SearchLogic;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.function.Function;
@@ -15,12 +16,12 @@ public class CompositeGenericSpecificationsBuilder<U> {
         if (compositeSpecSearchCriteria.isCriterion()) {
             return converter.apply(compositeSpecSearchCriteria);
         } else {
-            return whenComposite(compositeSpecSearchCriteria, converter);
+            return buildComposite(compositeSpecSearchCriteria, converter);
         }
     }
 
-    private Specification<U> whenComposite(CompositeSpecSearchCriteria compositeSpecSearchCriteria,
-                                           Function<CompositeSpecSearchCriteria, Specification<U>> converter
+    private Specification<U> buildComposite(CompositeSpecSearchCriteria compositeSpecSearchCriteria,
+                                            Function<CompositeSpecSearchCriteria, Specification<U>> converter
     ) {
         SearchLogic searchLogic = compositeSpecSearchCriteria.getLogic().orElse(null);
 
@@ -30,7 +31,7 @@ public class CompositeGenericSpecificationsBuilder<U> {
             if (filter.isCriterion()) {
                 newSpecification = converter.apply(filter);
             } else {
-                newSpecification = whenComposite(filter, converter);
+                newSpecification = buildComposite(filter, converter);
             }
 
             if (specification != null) {

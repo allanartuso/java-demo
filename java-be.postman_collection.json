@@ -1,0 +1,137 @@
+{
+	"info": {
+		"_postman_id": "e2a70501-a2e6-4723-9ec1-31de0c6eb997",
+		"name": "java-be",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "parsed",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{root}}/users/parsed?search=( firstName:john OR firstName:Tristian ) AND email:*rutherford*",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"users",
+						"parsed"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "( firstName:john OR firstName:Tristian ) AND email:*rutherford*"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"firstName\":\"Mariam\",\r\n   \"lastName\":\"Jamal\",\r\n   \"email\":\"mariam.jamal@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{root}}/users",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/users/query",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pagingOptions\": {\r\n        \"pageNumber\": 0,\r\n        \"pageSize\": 2\r\n    },\r\n    \"search\":[]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{root}}/users/query",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"users",
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{root}}/users?search=( firstName:john OR firstName:Tristian ) AND email:*rutherford*&pageNumber=0&pageSize=2&sortDirection=ASC&sortBy=id",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "( firstName:john OR firstName:Tristian ) AND email:*rutherford*"
+						},
+						{
+							"key": "pageNumber",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "2"
+						},
+						{
+							"key": "sortDirection",
+							"value": "ASC"
+						},
+						{
+							"key": "sortBy",
+							"value": "id"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

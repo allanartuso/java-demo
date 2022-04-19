@@ -1,5 +1,11 @@
-package com.example.demo.users;
+package com.example.demo.users.original;
 
+import com.example.demo.users.common.SearchOperation;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class SpecSearchCriteria {
 
     private String key;
@@ -46,37 +52,5 @@ public class SpecSearchCriteria {
         this.key = key;
         this.operation = op;
         this.value = value;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(final String key) {
-        this.key = key;
-    }
-
-    public SearchOperation getOperation() {
-        return operation;
-    }
-
-    public void setOperation(final SearchOperation operation) {
-        this.operation = operation;
-    }
-
-    public Object getValue() {
-        return value;
-    }
-
-    public void setValue(final Object value) {
-        this.value = value;
-    }
-
-    public boolean isOrPredicate() {
-        return orPredicate;
-    }
-
-    public void setOrPredicate(boolean orPredicate) {
-        this.orPredicate = orPredicate;
     }
 }

@@ -1,5 +1,13 @@
 package com.example.demo.users;
 
+import com.example.demo.users.common.PageOptions;
+import com.example.demo.users.composite.CompositeGenericSpecification;
+import com.example.demo.users.composite.CompositeGenericSpecificationsBuilder;
+import com.example.demo.users.composite.CompositeQueryOptions;
+import com.example.demo.users.original.CriteriaParser;
+import com.example.demo.users.original.GenericSpecification;
+import com.example.demo.users.original.GenericSpecificationsBuilder;
+import com.example.demo.users.original.QueryOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -20,7 +28,8 @@ public class UserController {
 
     @GetMapping()
     @ResponseBody
-    public List<User> getUsers(PageOptions pageOptions, String search) {
+    public List<User> getUsers(PageOptions pageOptions,
+                               @RequestParam(value = "search", required = false) String search) {
         if (search != null) {
             CriteriaParser parser = new CriteriaParser();
             GenericSpecificationsBuilder<User> specBuilder = new GenericSpecificationsBuilder<>();
@@ -33,7 +42,7 @@ public class UserController {
 
     @GetMapping("/parsed")
     @ResponseBody
-    public List<Object> getParsed(String search) {
+    public List<Object> getParsed(@RequestParam(value = "search", required = false) String search) {
         CriteriaParser parser = new CriteriaParser();
         return parser.parse(search);
     }
