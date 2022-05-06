@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "users")
-public class User {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,17 +36,17 @@ public class User {
     @Transient
     private String fullName;
 
-    public User() {
+    public UserEntity() {
     }
 
-    public User(Long id, String firstName, String lastName, String email) {
+    public UserEntity(Long id, String firstName, String lastName, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
     }
 
-    public User(String firstName, String lastName, String email) {
+    public UserEntity(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

@@ -20,7 +20,7 @@ public class UserService {
         this.userCriteriaRepository = userCriteriaRepository;
     }
 
-    public List<User> getUsers(PageOptions pageOptions) {
+    public List<UserEntity> getUsers(PageOptions pageOptions) {
         Pageable pageable = getPageable(pageOptions);
         return userCriteriaRepository.findAll(pageable).toList();
     }
@@ -30,17 +30,18 @@ public class UserService {
         return PageRequest.of(pageOptions.getPageNumber(), pageOptions.getPageSize(), sort);
     }
 
-    public List<User> getUsers(PageOptions pageOptions, Specification<User> spec) {
+    public List<UserEntity> getUsers(PageOptions pageOptions, Specification<UserEntity> spec) {
         Pageable pageable = getPageable(pageOptions);
         return userCriteriaRepository.findAll(spec, pageable).toList();
     }
 
-    public User createUsers(User user) {
-        Optional<User> userByEmail = userCriteriaRepository.findUserByEmail(user.getEmail());
+    public UserEntity createUsers(UserDto user) {
+        Optional<UserEntity> userByEmail = userCriteriaRepository.findUserByEmail(user.getEmail());
         if (userByEmail.isPresent()) {
             throw new IllegalStateException("email taken");
         }
 
-        return userCriteriaRepository.save(user);
+        return userCriteriaRepository
+                .save(new UserEntity(null, user.getFirstName(), user.getLastName(), user.getEmail()));
     }
 }
