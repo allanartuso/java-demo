@@ -1,6 +1,6 @@
-package com.example.demo.users.composite;
+package com.example.demo.filtering.composite;
 
-import com.example.demo.users.common.SearchLogic;
+import com.example.demo.filtering.common.SearchLogic;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.function.Function;

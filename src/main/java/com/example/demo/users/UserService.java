@@ -1,6 +1,6 @@
 package com.example.demo.users;
 
-import com.example.demo.users.common.PageOptions;
+import com.example.demo.filtering.common.PageOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

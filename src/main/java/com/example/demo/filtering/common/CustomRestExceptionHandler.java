@@ -1,4 +1,4 @@
-package com.example.demo.users.common;
+package com.example.demo.filtering.common;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.TypeMismatchException;
@@ -131,7 +131,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleIllegalArgumentException(final IllegalArgumentException ex,
                                                             final WebRequest request) {
         logger.info(ex.getClass().getName());
-
+        logger.error("error", ex);
 
         final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ex.getLocalizedMessage());
         return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());

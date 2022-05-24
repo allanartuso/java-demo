@@ -1,7 +1,7 @@
-package com.example.demo.users.composite;
+package com.example.demo.filtering.composite;
 
-import com.example.demo.users.common.SearchLogic;
-import com.example.demo.users.common.SearchOperation;
+import com.example.demo.filtering.common.SearchLogic;
+import com.example.demo.filtering.common.SearchOperation;
 import lombok.Getter;
 import lombok.Setter;
 

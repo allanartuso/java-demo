@@ -1,6 +1,6 @@
-package com.example.demo.users.composite;
+package com.example.demo.filtering.composite;
 
-import com.example.demo.users.common.PageOptions;
+import com.example.demo.filtering.common.PageOptions;
 import lombok.Getter;
 import lombok.Setter;
 

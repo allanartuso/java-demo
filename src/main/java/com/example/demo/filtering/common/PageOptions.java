@@ -1,4 +1,4 @@
-package com.example.demo.users.common;
+package com.example.demo.filtering.common;
 
 import lombok.Getter;
 import lombok.Setter;
